@@ -220,23 +220,23 @@ pub extern "C" fn hell_world() {
     println!("[rust] hell world from mmtk/src/api.rs:hell_world")
 }
 
-#[no_mangle]
-pub extern "C" fn add_weak_candidate(reff: ObjectReference, referent: ObjectReference) {
-    <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
-    memory_manager::add_weak_candidate(&SINGLETON, reff)
-}
+// #[no_mangle]
+// pub extern "C" fn add_weak_candidate(reff: ObjectReference, referent: ObjectReference) {
+//     <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
+//     memory_manager::add_weak_candidate(&SINGLETON, reff)
+// }
 
-#[no_mangle]
-pub extern "C" fn add_soft_candidate(reff: ObjectReference, referent: ObjectReference) {
-    <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
-    memory_manager::add_soft_candidate(&SINGLETON, reff)
-}
+// #[no_mangle]
+// pub extern "C" fn add_soft_candidate(reff: ObjectReference, referent: ObjectReference) {
+//     <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
+//     memory_manager::add_soft_candidate(&SINGLETON, reff)
+// }
 
-#[no_mangle]
-pub extern "C" fn add_phantom_candidate(reff: ObjectReference, referent: ObjectReference) {
-    <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
-    memory_manager::add_phantom_candidate(&SINGLETON, reff)
-}
+// #[no_mangle]
+// pub extern "C" fn add_phantom_candidate(reff: ObjectReference, referent: ObjectReference) {
+//     <JikesRVM as VMBinding>::VMReferenceGlue::set_referent(reff, referent);
+//     memory_manager::add_phantom_candidate(&SINGLETON, reff)
+// }
 
 #[no_mangle]
 // We trust the name/value pointer is valid.
@@ -294,10 +294,11 @@ pub extern "C" fn last_heap_address() -> Address {
 }
 
 // finalization
-#[no_mangle]
-pub extern "C" fn add_finalizer(object: ObjectReference) {
-    memory_manager::add_finalizer(&SINGLETON, object);
-}
+// #[no_mangle]
+// pub extern "C" fn add_finalizer(object: ObjectReference) {
+//     // println!("[rust] am be called? mmtk/src/api.rs:add_finalizer");
+//     memory_manager::add_finalizer(&SINGLETON, object);
+// }
 
 #[no_mangle]
 pub extern "C" fn get_finalized_object() -> ObjectReference {

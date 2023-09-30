@@ -14,11 +14,11 @@ mkdir -p $DACAPO_PATH
 wget https://downloads.sourceforge.net/project/dacapobench/archive/2006-10-MR2/dacapo-2006-10-MR2.jar -O $DACAPO_PATH/dacapo-2006-10-MR2.jar
 
 # Install dependencies for JikesRVM
-sudo apt-get update -y
-sudo apt-get install build-essential gcc-multilib gettext bison -y
+ apt-get update -y
+ apt-get install build-essential gcc-multilib gettext bison -y
 
-sudo dpkg --add-architecture i386
-sudo apt-get update
-sudo apt-get install libgcc-s1:i386
-sudo apt-get install libc6-dev-i386
-sudo apt-get install zlib1g-dev:i386
+ dpkg --add-architecture i386
+ apt-get update
+ apt-get install libgcc-s1:i386 -y
+ apt-get install libc6-dev-i386 -y
+ apt-get install zlib1g-dev:i386 -y

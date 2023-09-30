@@ -14,6 +14,8 @@ use entrypoint::*;
 use java_header_constants::*;
 use memory_manager_constants::*;
 use mmtk::memory_manager;
+
+// fix me this function is private pub use mmtk::plan::is_nursery_gc;
 use mmtk::scheduler::*;
 use mmtk::util::opaque_pointer::*;
 use mmtk::util::{Address, ObjectReference};
@@ -185,6 +187,34 @@ impl Scanning<JikesRVM> for VMScanning {
     ) -> bool {
         process_weak_refs_inner(_worker, _tracer_context)
     }
+
+    fn forward_weak_refs(
+        _worker: &mut GCWorker<JikesRVM>,
+        _tracer_context: impl ObjectTracerContext<JikesRVM>,
+    ) {
+        forward_weak_refs_inner(_worker, _tracer_context)
+    }
+}
+
+fn forward_weak_refs_inner<C>(_worker: &mut GCWorker<JikesRVM>, _tracer_context: C)
+where
+    C: ObjectTracerContext<JikesRVM>,
+{
+    let tls = _worker.tls;
+    // let is_nursery = SINGLETON
+    //     .get_plan()
+    //     .generational()
+    //     .map_or(false, |plan| plan.is_current_gc_nursery());
+    let is_nursery = false;
+    _tracer_context.with_tracer(_worker, |tracer| unsafe {
+        jtoc_call!(
+            DO_PROTON_PROCESSOR_FORWARD_METHOD_OFFSET,
+            tls,
+            trace_object_callback_for_jikesrvm::<C::TracerType>,
+            tracer as *mut _ as *mut libc::c_void,
+            is_nursery as i32
+        );
+    });
 }
 
 fn process_weak_refs_inner<C>(_worker: &mut GCWorker<JikesRVM>, _tracer_context: C) -> bool
@@ -192,18 +222,34 @@ where
     C: ObjectTracerContext<JikesRVM>,
 {
     let tls = _worker.tls;
-    _tracer_context.with_tracer(_worker, |tracer| {
-        unsafe {
-            jtoc_call!(
-                DO_FINALIZABLE_PROCESSOR_SCAN_METHOD_OFFSET,
-                tls,
-                trace_object_callback_for_jikesrvm::<C::TracerType>,
-                tracer as *mut _ as *mut libc::c_void,
-                0
-            );
-        }
+
+        let is_nursery = false;
+    // let is_nursery = SINGLETON
+    //     .get_plan()
+    //     .generational()
+    //     .map_or(false, |plan| plan.is_current_gc_nursery());
+
+    //  fix me why this function  private? let is_nursery = mmtk::plan::is_nursery_gc::<JikesRVM>(SINGLETON.get_plan());
+
+    let need_retain = SINGLETON.get_plan().is_emergency_collection();
+
+    let mut scan_result = 0;
+
+    _tracer_context.with_tracer(_worker, |tracer| unsafe {
+        scan_result = jtoc_call!(
+            DO_PROTON_PROCESSOR_SCAN_METHOD_OFFSET,
+            tls,
+            trace_object_callback_for_jikesrvm::<C::TracerType>,
+            tracer as *mut _ as *mut libc::c_void,
+            is_nursery as i32,
+            need_retain as i32
+        );
     });
-    false
+    // 1. p     r clean
+    // 2. conditional compiling rust cfg feature
+
+    // return true true true false(phantom)
+    scan_result == 0
 }
 
 impl VMScanning {
