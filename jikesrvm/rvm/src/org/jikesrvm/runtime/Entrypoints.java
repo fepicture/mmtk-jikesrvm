@@ -34,8 +34,6 @@ public class Entrypoints {
           getMethod(org.jikesrvm.mm.mminterface.RustScanning.class, "scanBootImage", "(Lorg/vmmagic/unboxed/Address;)V");
   public static final NormalMethod scheduleFinalizerMethod =
           getMethod(org.jikesrvm.scheduler.FinalizerThread.class, "schedule", "()V");
-  public static final NormalMethod swiftMethod = getMethod(org.jikesrvm.mm.mminterface.MemoryManager.class, "swift",
-      "()V");
   public static final NormalMethod doProtonProcessorScanMethod = getMethod(
       org.jikesrvm.mm.mminterface.MemoryManager.class, "doProtonProcessorScan", "(Lorg/vmmagic/unboxed/Address;Lorg/vmmagic/unboxed/Address;ZZ)Z");
   public static final NormalMethod doProtonProcessorForwardMethod = getMethod(

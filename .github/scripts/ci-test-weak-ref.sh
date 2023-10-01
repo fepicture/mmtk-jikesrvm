@@ -34,6 +34,6 @@ RVM_OPTIONS=-X:gc:no_reference_types=false
 # ./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms300M -Xmx4000M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar hsqldb
 ./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar jython
 ./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar luindex
-./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar lusearch
+#./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar lusearch
 ./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar pmd
 ./dist/RFastAdaptiveMarkSweep_x86_64_m32-linux/rvm $RVM_OPTIONS -Xms150M -Xmx1500M -jar $DACAPO_PATH/dacapo-2006-10-MR2.jar xalan
